@@ -1,0 +1,61 @@
+﻿@page "/AprenderMas"
+@rendermode InteractiveServer
+
+<PageTitle>AprendeMas</PageTitle>
+
+<div class="container mt-5">
+    <h1 class="text-center display-4 mb-5" style="color: #007bff;">¿Cómo estoy Aprendiendo Blazor? 💡</h1>
+
+    <div class="selected-video mb-4" style="text-align:center;">
+        @if (selectedVideo != null)
+        {
+            <!-- Video seleccionado en tamaño grande -->
+            <div class="video-expanded">
+                <iframe class="video-frame" width="90%" height="500px" src="https://www.youtube.com/embed/@selectedVideo.Url" allowfullscreen></iframe>
+                <h3 class="mt-3">@selectedVideo.Titulo</h3>
+                <p>@selectedVideo.Descripcion</p>
+            </div>
+        }
+    </div>
+
+    <div class="video-thumbnails d-flex justify-content-center flex-wrap">
+        @foreach (var video in videos)
+        {
+            <!-- Mostrar los videos no seleccionados más pequeños -->
+            @if (video != selectedVideo)
+            {
+                <div class="thumbnail-container m-2" style="cursor: pointer;" @onclick="() => SelectVideo(video)">
+                    <div class="card border-0 shadow-sm" style="width: 180px;">
+                        <img class="card-img-top" src="http://i.ytimg.com/vi/@video.Url/hqdefault.jpg" alt="@video.Titulo" style="width: 100%; height: auto;">
+                        <div class="card-body p-2">
+                            <h6 class="card-title text-center">@video.Titulo</h6>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@code{
+    Video selectedVideo = null;
+
+    class Video{
+        public string Titulo {get; set;} ="";
+        public string Url {get; set;} ="";
+        public string Descripcion {get; set;} ="";
+    }
+
+    List<Video> videos = new List<Video>{
+        new Video{Titulo = "Blazor en 10 minutos", Url ="VDkiB5F7FH0", Descripcion ="En este video te explico en 10 minutos todo lo que tienes que saber sobre Blazor: qué es, para qué se usa, cómo se usa, y porqué deberías comenzar a usarlo."},
+        new Video{Titulo = "¿Qué diablos es Blazor?", Url ="ktDj2xD-H9s", Descripcion ="En este video te explicaré en resumen qué es Blazor."},
+        new Video{Titulo = "Curso de Blazor en Español", Url ="weda0npFxtk", Descripcion ="En este video, te cuento qué es Blazor y el entorno web actual."},
+        new Video{Titulo = "Introducción a Blazor", Url ="K8dJh-aqEXw", Descripcion ="Haremos una pequeña aplicación donde utilizaremos Entity Framework Core."},
+        new Video{Titulo = "¿EL NUEVO JAVASCRIPT DE MICROSOFT?", Url ="piNHZAMxVuk", Descripcion ="Debate entre si Blazor es el nuevo JavaScript de Microsoft."}
+    };
+
+    void SelectVideo(Video video)
+    {
+        selectedVideo = video;
+    }
+}

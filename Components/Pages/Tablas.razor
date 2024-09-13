@@ -1,0 +1,56 @@
+@page "/Tablas"
+@rendermode InteractiveServer
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h3 class="card-title mb-4">Tabla de Multiplicar</h3>
+
+                    <div class="form-group">
+                        <label for="numberInput" class="form-label">Ingrese un número:</label>
+                        <input type="number" id="numberInput" class="form-control" @bind="number" />
+                    </div>
+
+                    <button type="button" class="btn btn-primary mt-3" @onclick="GenerateMultiplicationTable">
+                        Generar Tabla
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (multiplicationTable != null && multiplicationTable.Count > 0)
+    {
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h4 class="card-title text-center">Tabla de multiplicar del @number</h4>
+                        <ul class="list-group list-group-flush">
+                            @foreach (var item in multiplicationTable)
+                            {
+                                <li class="list-group-item">@item</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private int number = 0;
+    private List<string> multiplicationTable = new();
+
+    private void GenerateMultiplicationTable()
+    {
+        multiplicationTable.Clear(); // Limpiar la tabla anterior
+        for (int i = 0; i <= 15; i++)
+        {
+            multiplicationTable.Add($"{i} x {number} = {i * number}");
+        }
+    }
+}
